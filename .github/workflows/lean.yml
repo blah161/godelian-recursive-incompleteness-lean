@@ -1,0 +1,27 @@
+name: Lean 4 verification — Phase 1
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  verify-phase1:
+    name: Verify checked Phase 1 results
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Lean and build project
+        uses: leanprover/lean-action@v1
+        with:
+          build: true
+
+      - name: Check Phase 1 proof dependencies
+        run: bash run_checks.sh
